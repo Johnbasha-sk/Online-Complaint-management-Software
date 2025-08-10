@@ -1,0 +1,79 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userCircuitBreaker
+                fallbackUri: forward:/fallback/user
+        - id: complaint-service
+          uri: lb://complaint-service
+          predicates:
+            - Path=/api/complaints/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: complaintCircuitBreaker
+                fallbackUri: forward:/fallback/complaint
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/api/departments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: departmentCircuitBreaker
+                fallbackUri: forward:/fallback/department
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: notificationCircuitBreaker
+                fallbackUri: forward:/fallback/notification
+        - id: auth-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: municipalComplaintSystemSecretKey2024
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.municipal: DEBUG
