@@ -1,0 +1,732 @@
+{
+	"info": {
+		"_postman_id": "municipal-complaints-api",
+		"name": "Municipal Complaints API",
+		"description": "Complete API collection for the Municipal Online Complaint Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser\",\n  \"name\": \"New User\",\n  \"email\": \"newuser@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"CITIZEN\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					}
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Get Current User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Users (Admin Only)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User (Admin Only)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"role\": \"STAFF\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Complaints",
+			"item": [
+				{
+					"name": "Create Complaint (Citizen)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category\": \"WATER\",\n  \"description\": \"Low water pressure in my area\",\n  \"priority\": \"HIGH\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/complaints",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Complaints (Staff/Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/complaints",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get My Complaints (Citizen)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/complaints/mine",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints",
+								"mine"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Complaint Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/complaints/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Assign Complaint to Department",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"departmentId\": 1,\n  \"assignedTo\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/complaints/1/assign",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints",
+								"1",
+								"assign"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Complaint Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/complaints/1/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints",
+								"1",
+								"status"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Comment to Complaint",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"commentText\": \"This issue is being investigated by our team.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/complaints/1/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"complaints",
+								"1",
+								"comments"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Departments",
+			"item": [
+				{
+					"name": "Get All Departments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/departments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"departments"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Department (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Public Safety\",\n  \"description\": \"Handles police, fire, and emergency services\",\n  \"contactInfo\": \"Phone: (555) 123-4570, Email: safety@municipal.gov\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/departments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"departments"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Department (Admin Only)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Department Name\",\n  \"description\": \"Updated description\",\n  \"contactInfo\": \"Updated contact information\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/departments/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"departments",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Assign Staff to Department (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/departments/1/assign-staff",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"departments",
+								"1",
+								"assign-staff"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Send Notification (Internal Use)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 4,\n  \"complaintId\": 1,\n  \"type\": \"COMPLAINT_STATUS_UPDATED\",\n  \"channel\": \"EMAIL\",\n  \"message\": \"Your complaint status has been updated to IN_PROGRESS\",\n  \"recipientEmail\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/notifications/send",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"send"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/user/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"user",
+								"4"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Complaint Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/complaint/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"complaint",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Pending Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/pending",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"pending"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Failed Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/failed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"failed"
+							]
+						}
+					}
+				},
+				{
+					"name": "Retry Failed Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/1/retry",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"1",
+								"retry"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health Checks",
+			"item": [
+				{
+					"name": "User Service Health",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8081/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Complaint Service Health",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8082/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Department Service Health",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8083/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Notification Service Health",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8084/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "your-jwt-token-here",
+			"type": "string"
+		}
+	]
+}
