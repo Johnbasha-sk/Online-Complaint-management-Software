@@ -1,0 +1,29 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: notification-service
+  config:
+    import: optional:configserver:
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:1025}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+sms:
+  provider: twilio
+  accountSid: ${TWILIO_ACCOUNT_SID:}
+  authToken: ${TWILIO_AUTH_TOKEN:}
+  fromNumber: ${TWILIO_FROM_NUMBER:}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
