@@ -1,0 +1,57 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: optional:configserver:
+  cloud:
+    gateway:
+      default-filters:
+        - RemoveHopByHopHeadersFilter
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**, /api/users/**, /ui/**
+          filters:
+            - StripPrefix=0
+        # placeholders for other services
+        - id: complaint-service
+          uri: lb://complaint-service
+          predicates:
+            - Path=/api/complaints/**
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/api/departments/**
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
+            allowedHeaders: "*"
+    discovery:
+      client:
+        simple:
+          instances: {}
+  security:
+    user:
+      name: disabled
+      password: disabled
+
+jwt:
+  secret: "replace-with-strong-secret-change-in-prod"
+  expirationSeconds: 86400
+
+resilience4j:
+  ratelimiter:
+    instances:
+      default:
+        limitForPeriod: 50
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
